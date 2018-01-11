@@ -1,0 +1,12 @@
+Configure miss: genisoimage
+Configure miss: mkisofs
+Configure miss: sys/cdio.h usability
+Configure miss: sys/cdio.h presence
+Configure miss: sys/cdio.h
+Configure miss: ntddcdrm.h
+Configure miss: ddk/ntddcdrm.h
+Configure miss: ntddscsi.h
+Configure miss: ddk/ntddscsi.h
+Configure miss: ddk/scsi.h
+Configure miss: _stati64
+Configure miss: CDDB
