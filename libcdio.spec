@@ -4,7 +4,7 @@
 #
 Name     : libcdio
 Version  : 2.0.0
-Release  : 2
+Release  : 3
 URL      : https://ftp.gnu.org/gnu/libcdio/libcdio-2.0.0.tar.bz2
 Source0  : https://ftp.gnu.org/gnu/libcdio/libcdio-2.0.0.tar.bz2
 Summary  : Portable CD-ROM I/O library
