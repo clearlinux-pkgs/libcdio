@@ -6,7 +6,7 @@
 #
 Name     : libcdio
 Version  : 2.0.0
-Release  : 4
+Release  : 5
 URL      : https://mirrors.kernel.org/gnu/libcdio/libcdio-2.0.0.tar.bz2
 Source0  : https://mirrors.kernel.org/gnu/libcdio/libcdio-2.0.0.tar.bz2
 Source99 : https://mirrors.kernel.org/gnu/libcdio/libcdio-2.0.0.tar.bz2.sig
