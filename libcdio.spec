@@ -5,19 +5,19 @@
 # Source0 file verified with key 0x1A8DE5008275EC21 (rocky@panix.com)
 #
 Name     : libcdio
-Version  : 2.0.0
-Release  : 5
-URL      : https://mirrors.kernel.org/gnu/libcdio/libcdio-2.0.0.tar.bz2
-Source0  : https://mirrors.kernel.org/gnu/libcdio/libcdio-2.0.0.tar.bz2
-Source99 : https://mirrors.kernel.org/gnu/libcdio/libcdio-2.0.0.tar.bz2.sig
+Version  : 2.1.0
+Release  : 6
+URL      : https://mirrors.kernel.org/gnu/libcdio/libcdio-2.1.0.tar.bz2
+Source0  : https://mirrors.kernel.org/gnu/libcdio/libcdio-2.1.0.tar.bz2
+Source99 : https://mirrors.kernel.org/gnu/libcdio/libcdio-2.1.0.tar.bz2.sig
 Summary  : Portable CD-ROM I/O library
 Group    : Development/Tools
 License  : GPL-2.0 GPL-3.0
-Requires: libcdio-bin
-Requires: libcdio-lib
-Requires: libcdio-doc
+Requires: libcdio-bin = %{version}-%{release}
+Requires: libcdio-lib = %{version}-%{release}
+Requires: libcdio-license = %{version}-%{release}
+Requires: libcdio-man = %{version}-%{release}
 BuildRequires : pkgconfig(ncurses)
-BuildRequires : pkgconfig(ncursesw)
 
 %description
 The libcdio package contains a library for CD-ROM and CD image
@@ -28,6 +28,7 @@ various CD-image formats may benefit from using this library.
 %package bin
 Summary: bin components for the libcdio package.
 Group: Binaries
+Requires: libcdio-license = %{version}-%{release}
 
 %description bin
 bin components for the libcdio package.
@@ -36,9 +37,10 @@ bin components for the libcdio package.
 %package dev
 Summary: dev components for the libcdio package.
 Group: Development
-Requires: libcdio-lib
-Requires: libcdio-bin
-Provides: libcdio-devel
+Requires: libcdio-lib = %{version}-%{release}
+Requires: libcdio-bin = %{version}-%{release}
+Provides: libcdio-devel = %{version}-%{release}
+Requires: libcdio = %{version}-%{release}
 
 %description dev
 dev components for the libcdio package.
@@ -47,6 +49,7 @@ dev components for the libcdio package.
 %package doc
 Summary: doc components for the libcdio package.
 Group: Documentation
+Requires: libcdio-man = %{version}-%{release}
 
 %description doc
 doc components for the libcdio package.
@@ -55,20 +58,38 @@ doc components for the libcdio package.
 %package lib
 Summary: lib components for the libcdio package.
 Group: Libraries
+Requires: libcdio-license = %{version}-%{release}
 
 %description lib
 lib components for the libcdio package.
 
 
+%package license
+Summary: license components for the libcdio package.
+Group: Default
+
+%description license
+license components for the libcdio package.
+
+
+%package man
+Summary: man components for the libcdio package.
+Group: Default
+
+%description man
+man components for the libcdio package.
+
+
 %prep
-%setup -q -n libcdio-2.0.0
+%setup -q -n libcdio-2.1.0
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1521069766
+export SOURCE_DATE_EPOCH=1555630061
+export LDFLAGS="${LDFLAGS} -fno-lto"
 %configure --disable-static
 make  %{?_smp_mflags}
 
@@ -80,8 +101,13 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1521069766
+export SOURCE_DATE_EPOCH=1555630061
 rm -rf %{buildroot}
+mkdir -p %{buildroot}/usr/share/package-licenses/libcdio
+cp COPYING %{buildroot}/usr/share/package-licenses/libcdio/COPYING
+cp test/copying-rr.gpl %{buildroot}/usr/share/package-licenses/libcdio/test_copying-rr.gpl
+cp test/copying.gpl %{buildroot}/usr/share/package-licenses/libcdio/test_copying.gpl
+cp test/data/copying.iso %{buildroot}/usr/share/package-licenses/libcdio/test_data_copying.iso
 %make_install
 
 %files
@@ -154,19 +180,33 @@ rm -rf %{buildroot}
 /usr/lib64/pkgconfig/libudf.pc
 
 %files doc
-%defattr(-,root,root,-)
+%defattr(0644,root,root,0755)
 %doc /usr/share/info/*
-%doc /usr/share/man/man1/*
 
 %files lib
 %defattr(-,root,root,-)
 /usr/lib64/libcdio++.so.1
 /usr/lib64/libcdio++.so.1.0.0
-/usr/lib64/libcdio.so.18
-/usr/lib64/libcdio.so.18.0.0
+/usr/lib64/libcdio.so.19
+/usr/lib64/libcdio.so.19.0.0
 /usr/lib64/libiso9660++.so.0
 /usr/lib64/libiso9660++.so.0.0.0
 /usr/lib64/libiso9660.so.11
 /usr/lib64/libiso9660.so.11.0.0
 /usr/lib64/libudf.so.0
 /usr/lib64/libudf.so.0.0.0
+
+%files license
+%defattr(0644,root,root,0755)
+/usr/share/package-licenses/libcdio/COPYING
+/usr/share/package-licenses/libcdio/test_copying-rr.gpl
+/usr/share/package-licenses/libcdio/test_copying.gpl
+/usr/share/package-licenses/libcdio/test_data_copying.iso
+
+%files man
+%defattr(0644,root,root,0755)
+/usr/share/man/man1/cd-drive.1
+/usr/share/man/man1/cd-info.1
+/usr/share/man/man1/cd-read.1
+/usr/share/man/man1/iso-info.1
+/usr/share/man/man1/iso-read.1
