@@ -6,14 +6,15 @@
 #
 Name     : libcdio
 Version  : 2.1.0
-Release  : 6
+Release  : 7
 URL      : https://mirrors.kernel.org/gnu/libcdio/libcdio-2.1.0.tar.bz2
 Source0  : https://mirrors.kernel.org/gnu/libcdio/libcdio-2.1.0.tar.bz2
-Source99 : https://mirrors.kernel.org/gnu/libcdio/libcdio-2.1.0.tar.bz2.sig
+Source1 : https://mirrors.kernel.org/gnu/libcdio/libcdio-2.1.0.tar.bz2.sig
 Summary  : Portable CD-ROM I/O library
 Group    : Development/Tools
 License  : GPL-2.0 GPL-3.0
 Requires: libcdio-bin = %{version}-%{release}
+Requires: libcdio-info = %{version}-%{release}
 Requires: libcdio-lib = %{version}-%{release}
 Requires: libcdio-license = %{version}-%{release}
 Requires: libcdio-man = %{version}-%{release}
@@ -46,13 +47,12 @@ Requires: libcdio = %{version}-%{release}
 dev components for the libcdio package.
 
 
-%package doc
-Summary: doc components for the libcdio package.
-Group: Documentation
-Requires: libcdio-man = %{version}-%{release}
+%package info
+Summary: info components for the libcdio package.
+Group: Default
 
-%description doc
-doc components for the libcdio package.
+%description info
+info components for the libcdio package.
 
 
 %package lib
@@ -82,32 +82,37 @@ man components for the libcdio package.
 
 %prep
 %setup -q -n libcdio-2.1.0
+cd %{_builddir}/libcdio-2.1.0
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
-export LANG=C
-export SOURCE_DATE_EPOCH=1555630061
-export LDFLAGS="${LDFLAGS} -fno-lto"
+export LANG=C.UTF-8
+export SOURCE_DATE_EPOCH=1573791461
+export GCC_IGNORE_WERROR=1
+export CFLAGS="$CFLAGS -fno-lto "
+export FCFLAGS="$CFLAGS -fno-lto "
+export FFLAGS="$CFLAGS -fno-lto "
+export CXXFLAGS="$CXXFLAGS -fno-lto "
 %configure --disable-static
 make  %{?_smp_mflags}
 
 %check
-export LANG=C
+export LANG=C.UTF-8
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1555630061
+export SOURCE_DATE_EPOCH=1573791461
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/libcdio
-cp COPYING %{buildroot}/usr/share/package-licenses/libcdio/COPYING
-cp test/copying-rr.gpl %{buildroot}/usr/share/package-licenses/libcdio/test_copying-rr.gpl
-cp test/copying.gpl %{buildroot}/usr/share/package-licenses/libcdio/test_copying.gpl
-cp test/data/copying.iso %{buildroot}/usr/share/package-licenses/libcdio/test_data_copying.iso
+cp %{_builddir}/libcdio-2.1.0/COPYING %{buildroot}/usr/share/package-licenses/libcdio/8624bcdae55baeef00cd11d5dfcfa60f68710a02
+cp %{_builddir}/libcdio-2.1.0/test/copying-rr.gpl %{buildroot}/usr/share/package-licenses/libcdio/dfac199a7539a404407098a2541b9482279f690d
+cp %{_builddir}/libcdio-2.1.0/test/copying.gpl %{buildroot}/usr/share/package-licenses/libcdio/68c94ffc34f8ad2d7bfae3f5a6b996409211c1b1
+cp %{_builddir}/libcdio-2.1.0/test/data/copying.iso %{buildroot}/usr/share/package-licenses/libcdio/c807ef36a3836f32e93f82ea28ee2d109e92c426
 %make_install
 
 %files
@@ -179,9 +184,9 @@ cp test/data/copying.iso %{buildroot}/usr/share/package-licenses/libcdio/test_da
 /usr/lib64/pkgconfig/libiso9660.pc
 /usr/lib64/pkgconfig/libudf.pc
 
-%files doc
+%files info
 %defattr(0644,root,root,0755)
-%doc /usr/share/info/*
+/usr/share/info/libcdio.info
 
 %files lib
 %defattr(-,root,root,-)
@@ -198,10 +203,10 @@ cp test/data/copying.iso %{buildroot}/usr/share/package-licenses/libcdio/test_da
 
 %files license
 %defattr(0644,root,root,0755)
-/usr/share/package-licenses/libcdio/COPYING
-/usr/share/package-licenses/libcdio/test_copying-rr.gpl
-/usr/share/package-licenses/libcdio/test_copying.gpl
-/usr/share/package-licenses/libcdio/test_data_copying.iso
+/usr/share/package-licenses/libcdio/68c94ffc34f8ad2d7bfae3f5a6b996409211c1b1
+/usr/share/package-licenses/libcdio/8624bcdae55baeef00cd11d5dfcfa60f68710a02
+/usr/share/package-licenses/libcdio/c807ef36a3836f32e93f82ea28ee2d109e92c426
+/usr/share/package-licenses/libcdio/dfac199a7539a404407098a2541b9482279f690d
 
 %files man
 %defattr(0644,root,root,0755)

@@ -10,3 +10,4 @@ Configure miss: ddk/ntddscsi.h
 Configure miss: ddk/scsi.h
 Configure miss: _stati64
 Configure miss: CDDB
+Configure miss: connect in -lsocket
