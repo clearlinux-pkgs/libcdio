@@ -6,10 +6,10 @@
 #
 Name     : libcdio
 Version  : 2.1.0
-Release  : 7
+Release  : 8
 URL      : https://mirrors.kernel.org/gnu/libcdio/libcdio-2.1.0.tar.bz2
 Source0  : https://mirrors.kernel.org/gnu/libcdio/libcdio-2.1.0.tar.bz2
-Source1 : https://mirrors.kernel.org/gnu/libcdio/libcdio-2.1.0.tar.bz2.sig
+Source1  : https://mirrors.kernel.org/gnu/libcdio/libcdio-2.1.0.tar.bz2.sig
 Summary  : Portable CD-ROM I/O library
 Group    : Development/Tools
 License  : GPL-2.0 GPL-3.0
@@ -89,11 +89,11 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1573791461
+export SOURCE_DATE_EPOCH=1605137190
 export GCC_IGNORE_WERROR=1
 export CFLAGS="$CFLAGS -fno-lto "
-export FCFLAGS="$CFLAGS -fno-lto "
-export FFLAGS="$CFLAGS -fno-lto "
+export FCFLAGS="$FFLAGS -fno-lto "
+export FFLAGS="$FFLAGS -fno-lto "
 export CXXFLAGS="$CXXFLAGS -fno-lto "
 %configure --disable-static
 make  %{?_smp_mflags}
@@ -103,10 +103,10 @@ export LANG=C.UTF-8
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
-make VERBOSE=1 V=1 %{?_smp_mflags} check
+make %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1573791461
+export SOURCE_DATE_EPOCH=1605137190
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/libcdio
 cp %{_builddir}/libcdio-2.1.0/COPYING %{buildroot}/usr/share/package-licenses/libcdio/8624bcdae55baeef00cd11d5dfcfa60f68710a02
